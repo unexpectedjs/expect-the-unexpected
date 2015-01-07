@@ -118,7 +118,7 @@ ExpectFacade.prototype.withArgs = function () {
     ExpectFacade.prototype[methodDefinition.name] = function () {
         var args = Array.prototype.slice.call(arguments);
         var assertion = expandFlags('[not] ' + methodDefinition.assertion, this.flags);
-        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
+        unexpected.apply(unexpected, [this.subject, assertion].concat(args));
     };
 });
 
@@ -127,16 +127,16 @@ ExpectFacade.prototype.withArgs = function () {
         var args = Array.prototype.slice.call(arguments);
         var assertion = expandFlags('[not] to have [own] ' + methodName, this.flags);
 
-        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
+        unexpected.apply(unexpected, [this.subject, assertion].concat(args));
     };
 });
 
 ['key', 'keys'].forEach(function (methodName) {
     ExpectFacade.prototype[methodName] = function () {
         var args = Array.prototype.slice.call(arguments);
-        var assertion = expandFlags('[not] to [only] have ' + methodName, this.flags)
+        var assertion = expandFlags('[not] to [only] have ' + methodName, this.flags);
 
-        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
+        unexpected.apply(unexpected, [this.subject, assertion].concat(args));
     };
 });
 
@@ -159,7 +159,7 @@ expect.addAssertion = function (assertionName, unexpectedAssertionName, customAs
         var args = Array.prototype.slice.call(arguments);
         var assertion = expandFlags(unexpectedAssertionName, this.flags);
 
-        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
+        unexpected.apply(unexpected, [this.subject, assertion].concat(args));
     };
 };
 

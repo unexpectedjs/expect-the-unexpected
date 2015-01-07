@@ -1,6 +1,8 @@
 # Expect the Unexpected
 
-This project implements Expect.js's interface using Unexpected. It
+This project implements
+[Expect.js](https://github.com/Automattic/expect.js)'s
+interface using Unexpected. It
 means that you can replace expect.js with this module, and most of
 your test suite will still run and you can start leveraging
 unexpecteds powerful assertions without rewriting your entire test

@@ -134,6 +134,8 @@ ExpectFacade.prototype.withArgs = function () {
     };
 });
 
+ExpectFacade.prototype.fail = unexpected.fail;
+
 function expect() {
     if (arguments.length > 1) {
         unexpected.apply(null, arguments);

@@ -153,6 +153,16 @@ function expect() {
 expect.fail = unexpected.fail;
 expect.outputFormat = unexpected.outputFormat;
 
+expect.addAssertion = function (assertionName, unexpectedAssertionName, customAssertion) {
+    unexpected.addAssertion(unexpectedAssertionName, customAssertion);
+    ExpectFacade.prototype[assertionName] = function () {
+        var args = Array.prototype.slice.call(arguments);
+        var assertion = expandFlags(unexpectedAssertionName, this.flags);
+
+        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
+    };
+};
+
 expect.version = '0.0.0';
 
 return expect;

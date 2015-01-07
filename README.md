@@ -56,4 +56,5 @@ expect({}, 'to have keys');
 
 ## License
 
-ISC
+This module is published under the ISC license. See the [LICENSE](LICENSE)
+file for details.

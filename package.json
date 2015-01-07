@@ -9,6 +9,10 @@
   "contributors": [
     "Sune Simonsen <sune@we-knowhow.dk>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/gustavnikolaj/expect-the-unexpected.git"
+  },
   "license": "ISC",
   "dependencies": {
     "unexpected": "5.1.4"

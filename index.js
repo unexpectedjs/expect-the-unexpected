@@ -20,6 +20,12 @@ function extend(obj) {
     return obj;
 }
 
+function expandFlags(pattern, flags) {
+    return pattern.replace(/\[(!?)([^\]]+)\] ?/g, function (match, negate, flag) {
+        return Boolean(flags[flag]) !== Boolean(negate) ? flag + ' ' : '';
+    }).trim();
+}
+
 var flags = {
     not: ['to', 'be', 'have', 'include', 'only'],
     to: ['be', 'have', 'include', 'only', 'not'],
@@ -111,22 +117,15 @@ ExpectFacade.prototype.withArgs = function () {
 ].forEach(function (methodDefinition) {
     ExpectFacade.prototype[methodDefinition.name] = function () {
         var args = Array.prototype.slice.call(arguments);
-        if (this.flags.not) {
-            unexpected.it.apply(unexpected, ['not ' + methodDefinition.assertion].concat(args))(this.subject);
-        } else {
-            unexpected.it.apply(unexpected, [methodDefinition.assertion].concat(args))(this.subject);
-        }
+        var assertion = expandFlags('[not] ' + methodDefinition.assertion, this.flags);
+        unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
     };
 });
 
 ['property', 'properties'].forEach(function (methodName) {
     ExpectFacade.prototype[methodName] = function () {
         var args = Array.prototype.slice.call(arguments);
-
-        var assertion = this.flags.not ? 'not ' : '';
-        assertion += 'to have ';
-        assertion += this.flags.own ? 'own ' : '';
-        assertion += methodName;
+        var assertion = expandFlags('[not] to have [own] ' + methodName, this.flags);
 
         unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
     };
@@ -135,12 +134,7 @@ ExpectFacade.prototype.withArgs = function () {
 ['key', 'keys'].forEach(function (methodName) {
     ExpectFacade.prototype[methodName] = function () {
         var args = Array.prototype.slice.call(arguments);
-
-        var assertion = this.flags.not ? 'not ' : '';
-        assertion += 'to ';
-        assertion += this.flags.only ? 'only ' : '';
-        assertion += 'have ';
-        assertion += methodName;
+        var assertion = expandFlags('[not] to [only] have ' + methodName, this.flags)
 
         unexpected.it.apply(unexpected, [assertion].concat(args))(this.subject);
     };

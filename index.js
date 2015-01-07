@@ -1,4 +1,12 @@
-var unexpected = require('unexpected');
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        module.exports = factory(require('unexpected'));
+    } else if (typeof define === 'function' && define.amd) {
+        define(['unexpected'], factory);
+    } else {
+        root.expect = factory(root.weknowhow.expect);
+    }
+}(this, function (unexpected) {
 
 function extend(obj) {
     var args = Array.prototype.slice.call(arguments, 1);
@@ -153,35 +161,6 @@ expect.outputFormat = unexpected.outputFormat;
 
 expect.version = '0.0.0';
 
-module.exports = expect;
+return expect;
 
-// console.log(expect(42).to.be.an);
-
-expect(42).to.be(42);
-
-expect('foo').to.eql('foo');
-expect(42).to.be.a('number');
-
-expect(function (name) {
-    if (name === 'Jakob') {
-        throw new Error('Goodbye Jakob');
-    }
-
-    return 'Hello ' + name;
-}).withArgs('Jakob').to.throwException(/Goodbye/);
-
-expect(function (name) {
-    if (name === 'Jakob') {
-        throw new Error('Goodbye Jakob');
-    }
-
-    return 'Hello ' + name;
-}).withArgs('Sune').to.not.throwException();
-
-expect(function (name) {
-    if (name === 'Jakob') {
-        throw new Error('Goodbye Jakob');
-    }
-
-    return 'Hello ' + name;
-}).withArgs('Jakob').to.not.throwException(/odbe/);
+}));

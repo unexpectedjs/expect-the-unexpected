@@ -667,11 +667,11 @@ describe('expect', function () {
 
     err(function () {
       expect(5).to.be.a('number').and.not.be(5);
-    }, "expected 5 to not equal 5");
+    }, "expected 5 not to be 5"); // Used to be: expected 5 to not equal 5
 
     err(function () {
       expect(5).to.be.a('number').and.not.be(6).and.not.be.above(4);
-    }, "expected 5 to be below 4");
+    }, "expected 5 not to be above 4"); // Used to be: expected 5 to be below 4
   });
 
   it('should fail with `fail`', function () {

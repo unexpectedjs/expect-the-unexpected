@@ -17,8 +17,10 @@ var flags = {
     to: ['be', 'have', 'include', 'only', 'not'],
     only: ['have'],
     have: ['own'],
-    be: ['an', 'a']
+    be: ['an', 'a', 'and']
 };
+
+flags.and = flags.to;
 
 var assertions = ['ok', 'within', 'empty', 'above', 'greaterThan'];
 
@@ -28,9 +30,11 @@ function defineNextStep(prop, parent) {
             var obj = new ExpectFacade(parent.subject, flags[prop]);
             obj.flags = extend({}, parent.flags);
             obj.flags[prop] = true;
+
             if (typeof ExpectFacade.prototype[prop] === 'function') {
                 var fn = function () {
-                    return ExpectFacade.prototype[prop].apply(obj, arguments);
+                    ExpectFacade.prototype[prop].apply(obj, arguments);
+                    return obj;
                 };
 
                 assertions.concat(flags[prop] || []).forEach(function (flag) {

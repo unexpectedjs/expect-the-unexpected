@@ -1,0 +1,19 @@
+{
+  "name": "expect-the-unexpected",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
+  "contributors": [
+    "Sune Simonsen <sune@we-knowhow.dk>"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "unexpected": "5.1.4"
+  },
+  "devDependencies": {
+    "mocha": "2.1.0"
+  }
+}

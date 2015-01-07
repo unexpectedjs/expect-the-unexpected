@@ -24,6 +24,36 @@ consider them equal. It's the difference between triple and double =.
 Expect these errors to pop up when replacing expect with
 expect-the-unexpected.
 
+### 2: property(name) property(name, val)
+
+Expect.js would consider the following to be true:
+
+```javascript
+expect('foobar').to.have.property('length');
+```
+
+Unexpected does not. The reason is that the length property only exists
+in javascript on the boxed string object, or if you create your strings
+with `String('foobar')`.
+
+Expect.js would also consider the following to be true:
+```javascript
+expect({ foo: undefined }).to.have.property('foo');
+```
+
+Unexpected does not, as it requires a defined value to acknowledge that
+the object has that property.
+
+### 3: keys
+
+Unexpected does not throw an error if you don't provide any keys to check
+for, which expect.js does. So this won't throw an error.
+
+```
+expect({}).to.have.keys();
+expect({}, 'to have keys');
+```
+
 ## License
 
 ISC

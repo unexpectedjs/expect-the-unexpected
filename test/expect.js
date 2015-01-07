@@ -11,7 +11,9 @@ function err (fn, msg) {
     fn();
     throw new Error('Expected an error');
   } catch (err) {
-    // expect(msg).to.be(err.message);
+    // Unexpected starts the error message with a new line. Replaces it here
+    // To avoid cluttering up the tests
+    expect(msg).to.be(err.message.replace(/^\n/, ''));
   }
 }
 
@@ -46,7 +48,7 @@ describe('expect', function () {
 
     err(function () {
       expect('test').to.be(true);
-    }, "expected 'test' to equal true")
+    }, "expected 'test' to be true") // Used to be: expected 'test' to equal true
   });
 
   it('should allow not.to', function () {
@@ -54,7 +56,7 @@ describe('expect', function () {
 
     err(function () {
       expect(false).not.to.be(false);
-    }, "expected false to not equal false")
+    }, "expected false not to be false") // Used to be: expected false to not equal false
   });
 
   it('should test ok', function () {
@@ -65,11 +67,11 @@ describe('expect', function () {
 
     err(function () {
       expect('').to.be.ok();
-    }, "expected '' to be truthy");
+    }, "expected '' to be ok"); // Used to be: expected '' to be truthy
 
     err(function () {
       expect('test').to.not.be.ok();
-    }, "expected 'test' to be falsy");
+    }, "expected 'test' not to be ok"); // Used to be: expected 'test' to be falsy
   });
 
   it('should test false', function () {
@@ -79,7 +81,7 @@ describe('expect', function () {
 
     err(function () {
       expect('').to.be(false);
-    }, "expected '' to equal false")
+    }, "expected '' to be false") // Used to be: expected '' to equal false
   });
 
   it('should test functions with arguments', function () {
@@ -132,9 +134,17 @@ describe('expect', function () {
     expect(itThrowsMessage).to.throwException(/tobi/);
     expect(itThrowsMessage).to.not.throwException(/test/);
 
+    // Used to throw: expected 'tobi' to match /no match/
     err(function () {
       expect(itThrowsMessage).to.throwException(/no match/);
-    }, 'expected \'tobi\' to match /no match/');
+    }, [
+      'expected',
+      'function itThrowsMessage() {',
+      '  throw new Error(\'tobi\');',
+      '}',
+      'to throw exception /no match/',
+      '  expected \'tobi\' to match /no match/'
+    ].join('\n'));
 
     var subject2;
 
@@ -147,9 +157,17 @@ describe('expect', function () {
     expect(itThrowsString).to.throwException(/aaa/);
     expect(itThrowsString).to.not.throwException(/bbb/);
 
+    // Used to throw: expected 'aaa' to match /no match/i
     err(function () {
       expect(itThrowsString).to.throwException(/no match/i);
-    }, 'expected \'aaa\' to match /no match/i');
+    }, [
+      'expected',
+      'function itThrowsString() {',
+      '  throw \'aaa\';',
+      '}',
+      'to throw exception /no match/i',
+      '  expected \'aaa\' to match /no match/i'
+    ].join('\n'));
 
     var called = false;
 
@@ -159,18 +177,32 @@ describe('expect', function () {
 
     expect(called).to.be(false);
 
+    // Used to throw: expected 5 to be a function
     err(function () {
       expect(5).to.throwException();
-    }, 'expected 5 to be a function');
+    }, [
+      'The assertion "to throw exception" is not defined for the type "number",',
+      'but it is defined for the type "function"'
+    ].join('\n'));
 
+    // Used to throw: expected fn not to throw an exception
     err(function () {
       expect(anonItThrows).not.to.throwException();
-    }, 'expected fn not to throw an exception');
+    }, [
+      'expected',
+      'function () {',
+      '  a.b.c;',
+      '}',
+      'not to throw exception',
+      '  threw: [Error: { message: \'a is not defined\' }]'
+    ].join('\n'));
 
+    // Used to throw: expected fn to throw an exception
     err(function () {
       expect(anonItWorks).to.throwException();
-    }, 'expected fn to throw an exception');
+    }, 'expected function () {} to throw exception');
 
+    /*
     if (nameSupported) {
       err(function () {
         expect(itWorks).to.throwException();
@@ -181,6 +213,19 @@ describe('expect', function () {
       }, 'expected fn to throw an exception');
     }
 
+    The above out commented code is replaced by the following test
+    */
+    err(function () {
+      expect(itWorks).to.throwException();
+    }, [
+      'expected',
+      'function itWorks() {',
+      '  return',
+      '}',
+      'to throw exception'
+    ].join('\n'));
+
+    /*
     if (nameSupported) {
       err(function () {
         expect(itThrows).not.to.throwException();
@@ -190,6 +235,19 @@ describe('expect', function () {
         expect(anonItThrows).not.to.throwException();
       }, 'expected fn not to throw an exception');
     }
+
+    The above out commented code is replaced by the following test
+    */
+    err(function () {
+      expect(itThrows).not.to.throwException();
+    }, [
+      'expected',
+      'function itThrows() {',
+      '  a.b.c;',
+      '}',
+      'not to throw exception',
+      '  threw: [Error: { message: \'a is not defined\' }]'
+    ].join('\n'));
   });
 
   it('should test arrays', function () {
@@ -198,7 +256,7 @@ describe('expect', function () {
 
     err(function () {
       expect({}).to.be.an('array');
-    }, 'expected {} to be an array');
+    }, 'expected {} to be an \'array\''); // Used to be: expected {} to be an array
   });
 
   it('should test regex', function () {
@@ -207,7 +265,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.a('regexp');
-    }, 'expected null to be a regexp');
+    }, 'expected null to be a \'regexp\''); // Used to be: expected null to be a regexp
   });
 
   it('should test objects', function () {
@@ -215,7 +273,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.an('object');
-    }, 'expected null to be an object');
+    }, 'expected null to be an \'object\''); // Used to be: expected null to be an object
   });
 
   it('should test .equal()', function () {
@@ -228,19 +286,20 @@ describe('expect', function () {
 
     err(function () {
       expect('test').to.not.be.a('string');
-    }, "expected 'test' not to be a string");
+    }, "expected 'test' not to be a 'string'"); // Used to be: expected 'test' not to be a string
 
     expect(5).to.be.a('number');
 
     err(function () {
       expect(5).to.not.be.a('number');
-    }, "expected 5 not to be a number");
+    }, "expected 5 not to be a 'number'"); // Used to be: expected 5 not to be a number
   });
 
   it('should test instanceof', function () {
     function Foo(){}
     expect(new Foo()).to.be.a(Foo);
 
+    /*
     if (nameSupported) {
       err(function () {
         expect(3).to.be.a(Foo);
@@ -250,6 +309,12 @@ describe('expect', function () {
         expect(3).to.be.a(Foo);
       }, "expected 3 to be an instance of supplied constructor");
     }
+
+    The above out commented code is replaced by the below:
+    */
+    err(function () {
+      expect(3).to.be.a(Foo);
+    }, 'expected 3 to be a function Foo() {}'); // Used to be: expected 3 to be an instance of Foo REGRESSED
   });
 
   it('should test within(start, finish)', function () {
@@ -259,11 +324,11 @@ describe('expect', function () {
 
     err(function () {
       expect(5).to.not.be.within(4,6);
-    }, "expected 5 to not be within 4..6");
+    }, "expected 5 not to be within '4..6'"); // Used to be: expected 5 to not be within 4..6
 
     err(function () {
       expect(10).to.be.within(50,100);
-    }, "expected 10 to be within 50..100");
+    }, "expected 10 to be within '50..100'"); // Used to be: expected 10 to be within 50..100
   });
 
   it('should test above(n)', function () {
@@ -278,7 +343,7 @@ describe('expect', function () {
 
     err(function () {
       expect(10).to.not.be.above(6);
-    }, "expected 10 to be below 6");
+    }, "expected 10 not to be above 6"); // Used to be: expected 10 to be below 6
   });
 
   it('should test match(regexp)', function () {
@@ -291,7 +356,11 @@ describe('expect', function () {
 
     err(function () {
       expect('foobar').to.not.match(/^foo/i)
-    }, "expected 'foobar' not to match /^foo/i");
+    }, [
+      "expected 'foobar' not to match /^foo/i",
+      '',
+      'foobar'
+    ].join('\n')); // Used to be: expected 'foobar' not to match /^foo/i
   });
 
   it('should test length(n)', function () {
@@ -301,11 +370,14 @@ describe('expect', function () {
 
     err(function () {
       expect(4).to.have.length(3);
-    }, 'expected 4 to have a property \'length\'');
+    }, [
+      'The assertion "to have length" is not defined for the type "number",',
+      'but it is defined for these types: "string", "object"'
+    ].join('\n')); // Used to be: 'expected 4 to have a property \'length\''
 
     err(function () {
       expect('asd').to.not.have.length(3);
-    }, "expected 'asd' to not have a length of 3");
+    }, "expected 'asd' not to have length 3"); // Used to be: expected 'asd' to not have a length of 3
   });
 
   it('should test eql(val)', function () {
@@ -317,7 +389,7 @@ describe('expect', function () {
 
     err(function () {
       expect(4).to.eql(3);
-    }, 'expected 4 to sort of equal 3');
+    }, 'expected 4 to equal 3'); // Used to be: expected 4 to sort of equal 3
   });
 
   it('should test equal(val)', function () {
@@ -326,11 +398,11 @@ describe('expect', function () {
 
     err(function () {
       expect(4).to.equal(3);
-    }, 'expected 4 to equal 3');
+    }, 'expected 4 to be 3'); // Used to be: expected 4 to equal 3
 
     err(function () {
       expect('4').to.equal(4);
-    }, "expected '4' to equal 4");
+    }, "expected '4' to be 4"); // Used to be: expected '4' to equal 4
   });
 
   it('should test be(val)', function () {
@@ -339,11 +411,11 @@ describe('expect', function () {
 
     err(function () {
       expect(4).to.be(3);
-    }, 'expected 4 to equal 3');
+    }, 'expected 4 to be 3'); // Used to be: expected 4 to equal 3
 
     err(function () {
       expect('4').to.be(4);
-    }, "expected '4' to equal 4");
+    }, "expected '4' to be 4"); // Used to be: expected '4' to equal 4
   });
 
   it('should test empty', function () {
@@ -354,7 +426,10 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.empty();
-    }, 'expected null to be an object');
+    }, [
+      'The assertion "to be empty" is not defined for the type "null",',
+      'but it is defined for these types: "string", "object"'
+    ].join('\n')); // Used to be: expected null to be an object
 
     err(function () {
       expect({ a: 'b' }).to.be.empty();
@@ -370,55 +445,72 @@ describe('expect', function () {
 
     err(function () {
       expect('').to.not.be.empty();
-    }, "expected '' to not be empty");
+    }, "expected '' not to be empty"); // Used to be: expected '' to not be empty
 
     err(function () {
       expect({}).to.not.be.empty();
-    }, "expected {} to not be empty");
+    }, "expected {} not to be empty"); // Used to be: expected {} to not be empty
   });
 
   it('should test property(name)', function () {
-    expect('test').to.have.property('length');
-    expect(4).to.not.have.property('length');
-    expect({ length: undefined }).to.have.property('length');
+    // SEE DOCUMENTATION ON INCOMPATABILITIES
+    //expect('test').to.have.property('length'); INCOMPATABILITY
+    //expect(4).to.not.have.property('length'); INCOMPATABILITY
+    //expect({ length: undefined }).to.have.property('length'); INCOMPATABILITY
+
+    expect({ name: 'John' }).to.have.property('name');
 
     err(function () {
       expect('asd').to.have.property('foo');
-    }, "expected 'asd' to have a property 'foo'");
+    }, [
+      'The assertion "to have property" is not defined for the type "string",',
+      'but it is defined for the type "object"'
+    ].join('\n')); // Used to be: expected 'asd' to have a property 'foo'
 
-    err(function () {
+    // The following assertion used to throw an error. It doesn't with Unexpected.
+    // err(function () {
       expect({ length: undefined }).to.not.have.property('length');
-    }, "expected { length: undefined } to not have a property 'length'");
+    // }, "expected { length: undefined } to not have a property 'length'");
   });
 
   it('should test property(name, val)', function () {
-    expect('test').to.have.property('length', 4);
-    expect({ length: undefined }).to.have.property('length', undefined);
+    // SEE DOCUMENTATION ON INCOMPATABILITIES
+    // INCOMPATABILITY
+    // expect('test').to.have.property('length', 4);
+    // INCOMPATABILITY
+    // expect({ length: undefined }).to.have.property('length', undefined);
 
-    err(function () {
-      expect('asd').to.have.property('length', 4);
-    }, "expected 'asd' to have a property 'length' of 4, but got 3");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect('asd').to.have.property('length', 4);
+    //}, "expected 'asd' to have a property 'length' of 4, but got 3");
 
-    err(function () {
-      expect('asd').to.not.have.property('length', 3);
-    }, "expected 'asd' to not have a property 'length' of 3");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect('asd').to.not.have.property('length', 3);
+    //}, "expected 'asd' to not have a property 'length' of 3");
 
-    err(function () {
-      expect('asd').to.not.have.property('foo', 3);
-    }, "'asd' has no property 'foo'");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect('asd').to.not.have.property('foo', 3);
+    //}, "'asd' has no property 'foo'");
+
+    expect({ foo: 'bar' }).to.have.property('foo', 'bar');
 
     err(function () {
       expect({ length: undefined }).to.not.have.property('length', undefined);
-    }, "expected { length: undefined } to not have a property 'length'");
+    }, "expected { length: undefined } not to have property 'length', undefined"); // Used to be: expected { length: undefined } to not have a property 'length'
   });
 
   it('should test own.property(name)', function () {
-    expect('test').to.have.own.property('length');
-    expect({ length: 12 }).to.have.own.property('length');
+    // SEE DOCUMENTATION ON INCOMPATABILITIES
+    // INCOMPATABILITY
+    //expect('test').to.have.own.property('length');
+    expect({ foo: 12 }).to.have.own.property('foo');
 
     err(function () {
-      expect({ length: 12 }).to.not.have.own.property('length');
-    }, "expected { length: 12 } to not have own property 'length'");
+      expect({ foo: 12 }).to.not.have.own.property('foo');
+    }, "expected { foo: 12 } not to have own property 'foo'"); // Used to be: expected { foo: 12 } to not have own property 'foo'
   });
 
   it('should test string()', function () {
@@ -430,7 +522,10 @@ describe('expect', function () {
 
     err(function () {
       expect(3).to.contain('baz');
-    }, "expected 3 to contain 'baz'");
+    }, [
+      'The assertion "to contain" is not defined for the type "number",',
+      'but it is defined for these types: "string", "arrayLike"'
+    ].join('\n')); // Used to be: expected 3 to contain 'baz'
 
     err(function () {
       expect('foobar').to.contain('baz');
@@ -438,7 +533,11 @@ describe('expect', function () {
 
     err(function () {
       expect('foobar').to.not.contain('bar');
-    }, "expected 'foobar' to not contain 'bar'");
+    }, [
+      "expected 'foobar' not to contain 'bar'",
+      '',
+      'foobar'
+    ].join('\n')); // Used to be: expected 'foobar' to not contain 'bar'
   });
 
   it('should test contain()', function () {
@@ -455,10 +554,18 @@ describe('expect', function () {
 
     err(function () {
       expect(['bar', 'foo']).to.not.contain('foo');
-    }, "expected [ 'bar', 'foo' ] to not contain 'foo'");
+    }, [
+      "expected [ 'bar', 'foo' ] not to contain 'foo'",
+      "",
+      "[",
+      "  'bar',",
+      "  'foo' // should be removed",
+      "]"
+    ].join('\n')); // Used to be: expected [ 'bar', 'foo' ] to not contain 'foo'
   });
 
   it('should test keys(array)', function () {
+    // SEE DOCUMENTATION ON INCOMPATABILITIES
     expect({ foo: 1 }).to.have.keys(['foo']);
     expect({ foo: 1, bar: 2 }).to.have.keys(['foo', 'bar']);
     expect({ foo: 1, bar: 2 }).to.have.keys('foo', 'bar');
@@ -478,53 +585,65 @@ describe('expect', function () {
     expect({ foo: 1, bar: 2 }).to.not.include.keys('foo', 'baz');
     expect({ foo: 1, bar: 2 }).to.not.include.keys('baz', 'foo');
 
-    err(function () {
-      expect({ foo: 1 }).to.have.keys();
-    }, "keys required");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect({ foo: 1 }).to.have.keys();
+    //}, "keys required");
 
-    err(function () {
-      expect({ foo: 1 }).to.have.keys([]);
-    }, "keys required");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect({ foo: 1 }).to.have.keys([]);
+    //}, "keys required");
 
-    err(function () {
-      expect({ foo: 1 }).to.not.have.keys([]);
-    }, "keys required");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect({ foo: 1 }).to.not.have.keys([]);
+    //}, "keys required");
 
-    err(function () {
-      expect({ foo: 1 }).to.include.keys([]);
-    }, "keys required");
+    // INCOMPATABILITY
+    //err(function () {
+    //  expect({ foo: 1 }).to.include.keys([]);
+    //}, "keys required");
 
     err(function () {
       expect({ foo: 1 }).to.have.keys(['bar']);
-    }, "expected { foo: 1 } to include key 'bar'");
+    }, "expected { foo: 1 } to have keys [ 'bar' ]");
+    // Used to be: expected { foo: 1 } to include key 'bar'
 
     err(function () {
       expect({ foo: 1 }).to.have.keys(['bar', 'baz']);
-    }, "expected { foo: 1 } to include keys 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys [ 'bar', 'baz' ]");
+    // Used to be: expected { foo: 1 } to include keys 'bar', and 'baz'
 
     err(function () {
       expect({ foo: 1 }).to.have.keys(['foo', 'bar', 'baz']);
-    }, "expected { foo: 1 } to include keys 'foo', 'bar', and 'baz'");
+    }, "expected { foo: 1 } to have keys [ 'foo', 'bar', 'baz' ]");
+    // Used to be: expected { foo: 1 } to include keys 'foo', 'bar', and 'baz'
 
     err(function () {
       expect({ foo: 1 }).to.not.have.keys(['foo']);
-    }, "expected { foo: 1 } to not include key 'foo'");
+    }, "expected { foo: 1 } not to have keys [ 'foo' ]");
+    // Used to be: expected { foo: 1 } to not include key 'foo'
 
     err(function () {
       expect({ foo: 1 }).to.not.have.keys(['foo']);
-    }, "expected { foo: 1 } to not include key 'foo'");
+    }, "expected { foo: 1 } not to have keys [ 'foo' ]");
+    // Used to be: expected { foo: 1 } to not include key 'foo'
 
     err(function () {
       expect({ foo: 1, bar: 2 }).to.not.have.keys(['foo', 'bar']);
-    }, "expected { foo: 1, bar: 2 } to not include keys 'foo', and 'bar'");
+    }, "expected { foo: 1, bar: 2 } not to have keys [ 'foo', 'bar' ]");
+    // Used to be: expected { foo: 1, bar: 2 } to not include keys 'foo', and 'bar'
 
     err(function () {
       expect({ foo: 1 }).to.not.include.keys(['foo']);
-    }, "expected { foo: 1 } to not include key 'foo'");
+    }, "expected { foo: 1 } not to have keys [ 'foo' ]");
+    // Used to be: expected { foo: 1 } to not include key 'foo'
 
     err(function () {
       expect({ foo: 1 }).to.include.keys('foo', 'bar');
-    }, "expected { foo: 1 } to include keys 'foo', and 'bar'");
+    }, "expected { foo: 1 } to have keys 'foo', 'bar'");
+    // Used to be: expected { foo: 1 } to include keys 'foo', and 'bar'
 
     // only
     expect({ foo: 1, bar: 1 }).to.only.have.keys('foo', 'bar');
@@ -532,11 +651,13 @@ describe('expect', function () {
 
     err(function () {
       expect({ a: 'b', c: 'd' }).to.only.have.keys('a', 'b', 'c');
-    }, "expected { a: 'b', c: 'd' } to only have keys 'a', 'b', and 'c'");
+    }, "expected { a: 'b', c: 'd' } to only have keys 'a', 'b', 'c'");
+    // Used to be: expected { a: 'b', c: 'd' } to only have keys 'a', 'b', and 'c'
 
     err(function () {
       expect({ a: 'b', c: 'd' }).to.only.have.keys('a');
-    }, "expected { a: 'b', c: 'd' } to only have key 'a'");
+    }, "expected { a: 'b', c: 'd' } to only have keys 'a'");
+    // Used to be: expected { a: 'b', c: 'd' } to only have key 'a'
   });
 
   it('should allow chaining with `and`', function () {

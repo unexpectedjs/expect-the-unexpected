@@ -13,6 +13,60 @@ with.
 This project is meant to make migration towards unexpected as easy as
 possible.
 
+## Getting started
+
+Take the following test suite:
+
+```javascript
+var expect = require('expect.js');
+
+describe('add', function () {
+	it('should return a number', function () {
+		var result = add(1,2);
+		expect(result).to.be.a('number');
+	});
+	it('should add to numbers correctly', function () {
+		var result = add(2,2);
+		expect(result).to.be.a('number').and.to.eql(3);
+	});
+});
+```
+
+Install expect the unexpected by running:
+```
+$ npm install --save-dev expect-the-unexpected
+```
+
+And change the following:
+
+```
+- var expect = require('expect.js');
++ var expect = require('expect-the-unexpected');
+```
+
+Then when you add a new test, you can use unexpected syntax without
+changing your old expect.js tests.
+
+```javascript
+var expect = require('expect-the-unexpected');
+
+describe('add', function () {
+	it('should return a number', function () {
+		var result = add(1,2);
+		expect(result).to.be.a('number');
+	});
+	it('should add to numbers correctly', function () {
+		var result = add(2,2);
+		expect(result).to.be.a('number').and.to.eql(3);
+	});
+	it('should return a curried method if only one argument is given', function () {
+		var add1 = add(1);
+		expect(add1, 'to be a function');
+		expect(add1(2), 'to be', 3);
+	});
+});
+```
+
 ## Incompatabilities
 
 ### 1: eql

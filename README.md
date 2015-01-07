@@ -13,6 +13,17 @@ with.
 This project is meant to make migration towards unexpected as easy as
 possible.
 
+## Incompatabilities
+
+### 1: eql
+
+Expect.js will consider the number 4 and the string '4'
+equal. Unexpected does not, and we believe that it is important not to
+consider them equal. It's the difference between triple and double =.
+
+Expect these errors to pop up when replacing expect with
+expect-the-unexpected.
+
 ## License
 
 ISC

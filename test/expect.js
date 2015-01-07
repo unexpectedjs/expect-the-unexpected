@@ -312,7 +312,7 @@ describe('expect', function () {
     expect('test').to.eql('test');
     expect({ foo: 'bar' }).to.eql({ foo: 'bar' });
     expect(1).to.eql(1);
-    expect('4').to.eql(4);
+    // expect('4').to.eql(4); - INCOMPATABILITY
     expect(/a/gmi).to.eql(/a/mig);
 
     err(function () {

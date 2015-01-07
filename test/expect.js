@@ -256,7 +256,7 @@ describe('expect', function () {
 
     err(function () {
       expect({}).to.be.an('array');
-    }, 'expected {} to be an \'array\''); // Used to be: expected {} to be an array
+    }, 'expected {} to be an array');
   });
 
   it('should test regex', function () {
@@ -265,7 +265,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.a('regexp');
-    }, 'expected null to be a \'regexp\''); // Used to be: expected null to be a regexp
+    }, 'expected null to be a regexp');
   });
 
   it('should test objects', function () {
@@ -273,7 +273,7 @@ describe('expect', function () {
 
     err(function () {
       expect(null).to.be.an('object');
-    }, 'expected null to be an \'object\''); // Used to be: expected null to be an object
+    }, 'expected null to be an object');
   });
 
   it('should test .equal()', function () {
@@ -286,13 +286,13 @@ describe('expect', function () {
 
     err(function () {
       expect('test').to.not.be.a('string');
-    }, "expected 'test' not to be a 'string'"); // Used to be: expected 'test' not to be a string
+    }, "expected 'test' not to be a string");
 
     expect(5).to.be.a('number');
 
     err(function () {
       expect(5).to.not.be.a('number');
-    }, "expected 5 not to be a 'number'"); // Used to be: expected 5 not to be a number
+    }, "expected 5 not to be a number");
   });
 
   it('should test instanceof', function () {
@@ -314,7 +314,7 @@ describe('expect', function () {
     */
     err(function () {
       expect(3).to.be.a(Foo);
-    }, 'expected 3 to be a function Foo() {}'); // Used to be: expected 3 to be an instance of Foo REGRESSED
+    }, 'expected 3 to be a Foo'); // Used to be: expected 3 to be an instance of Foo
   });
 
   it('should test within(start, finish)', function () {

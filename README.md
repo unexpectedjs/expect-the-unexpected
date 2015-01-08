@@ -73,7 +73,7 @@ describe('add', function () {
 And then, once you get around to refactor all your old expect.js
 assertions, you can just require unexpected instead.
 
-```
+```diff
 - var expect = require('expect-the-unexpected');
 + var expect = require('unexpected');
 ```

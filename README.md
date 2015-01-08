@@ -6,10 +6,10 @@ interface using
 [Unexpected](https://github.com/sunesimonsen/unexpected). It
 means that you can replace expect.js with this module, and most of
 your test suite will still run and you can start leveraging
-unexpecteds powerful assertions without rewriting your entire test
+unexpected's powerful assertions without rewriting your entire test
 suite.
 
-There will be some incompatabilities where we feel that expect.js is
+There will be some incompatibilities where we feel that expect.js is
 doing wrong things or things that the author of unexpected disagreed
 with.
 
@@ -42,9 +42,9 @@ $ npm install --save-dev expect-the-unexpected
 
 And change the following:
 
-```
-- var expect = require('expect.js');
-+ var expect = require('expect-the-unexpected');
+```diff
+-var expect = require('expect.js');
++var expect = require('expect-the-unexpected');
 ```
 
 Then when you add a new test, you can use unexpected syntax without
@@ -78,7 +78,7 @@ assertions, you can just require unexpected instead.
 + var expect = require('unexpected');
 ```
 
-## Incompatabilities
+## Incompatibilities
 
 ### 1: eql
 
@@ -86,7 +86,7 @@ Expect.js will consider the number 4 and the string '4'
 equal. Unexpected does not, and we believe that it is important not to
 consider them equal. It's the difference between triple and double =.
 
-Expect these errors to pop up when replacing expect with
+Expect these errors to pop up when replacing expect.js with
 expect-the-unexpected.
 
 ### 2: property(name) property(name, val)
@@ -97,9 +97,9 @@ Expect.js would consider the following to be true:
 expect('foobar').to.have.property('length');
 ```
 
-Unexpected does not. The reason is that the length property only exists
+Unexpected does not. The reason is that the `length` property only exists
 in javascript on the boxed string object, or if you create your strings
-with `String('foobar')`.
+with `new String('foobar')`.
 
 Expect.js would also consider the following to be true:
 ```javascript

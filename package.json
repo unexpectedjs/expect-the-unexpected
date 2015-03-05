@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot"
+    "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot",
+    "travis": "mocha -R spec"
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
   "contributors": [

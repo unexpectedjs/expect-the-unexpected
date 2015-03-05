@@ -1,6 +1,6 @@
 {
   "name": "expect-the-unexpected",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "mocha",

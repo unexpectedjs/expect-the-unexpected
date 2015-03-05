@@ -157,6 +157,24 @@ expect.addAssertion('[not] to have css class', function (expect, subject, value)
 });
 ```
 
+### 5: empty
+
+```javascript
+expect({}).to.be.empty();
+```
+
+Empty is basicly just an length === 0 assertion in unexpected.
+The type system does not allow the length to be checked on other
+types than string and object.
+
+```javascript
+expect([]).to.be.empty();
+expect('').to.be.empty();
+```
+
+The above two examples will work without changes.
+
+
 ## License
 
 This module is published under the ISC license. See the [LICENSE](LICENSE)

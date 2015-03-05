@@ -194,13 +194,13 @@ describe('expect', function () {
       '  a.b.c;',
       '}',
       'not to throw exception',
-      '  threw: [Error: { message: \'a is not defined\' }]'
+      '  threw: Error({ message: \'a is not defined\' })'
     ].join('\n'));
 
     // Used to throw: expected fn to throw an exception
     err(function () {
       expect(anonItWorks).to.throwException();
-    }, 'expected function () {} to throw exception');
+    }, 'expected function () { } to throw exception');
 
     /*
     if (nameSupported) {
@@ -246,7 +246,7 @@ describe('expect', function () {
       '  a.b.c;',
       '}',
       'not to throw exception',
-      '  threw: [Error: { message: \'a is not defined\' }]'
+      '  threw: Error({ message: \'a is not defined\' })'
     ].join('\n'));
   });
 
@@ -324,11 +324,11 @@ describe('expect', function () {
 
     err(function () {
       expect(5).to.not.be.within(4,6);
-    }, "expected 5 not to be within '4..6'"); // Used to be: expected 5 to not be within 4..6
+    }, "expected 5 not to be within 4..6"); // Used to be: expected 5 to not be within 4..6
 
     err(function () {
       expect(10).to.be.within(50,100);
-    }, "expected 10 to be within '50..100'"); // Used to be: expected 10 to be within 50..100
+    }, "expected 10 to be within 50..100"); // Used to be: expected 10 to be within 50..100
   });
 
   it('should test above(n)', function () {
@@ -372,7 +372,7 @@ describe('expect', function () {
       expect(4).to.have.length(3);
     }, [
       'The assertion "to have length" is not defined for the type "number",',
-      'but it is defined for these types: "string", "object"'
+      'but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: 'expected 4 to have a property \'length\''
 
     err(function () {
@@ -419,25 +419,33 @@ describe('expect', function () {
   });
 
   it('should test empty', function () {
+    // SEE DOCUMENTATION ON INCOMPATIBILITIES
+    // Empty is basicly just an length === 0 assertion in unexpected.
+    // The type system does not allow the length to be checked on other
+    // types than string and object.
     expect('').to.be.empty();
-    expect({}).to.be.empty();
+    //expect({}).to.be.empty(); INCOMPATIBILITY
     expect([]).to.be.empty();
-    expect({ length: 0 }).to.be.empty();
+    //expect({ length: 0 }).to.be.empty(); INCOMPATIBILITY
 
     err(function () {
       expect(null).to.be.empty();
     }, [
       'The assertion "to be empty" is not defined for the type "null",',
-      'but it is defined for these types: "string", "object"'
+      'but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: expected null to be an object
 
+    /* INCOMPATIBILITY
     err(function () {
       expect({ a: 'b' }).to.be.empty();
     }, 'expected { a: \'b\' } to be empty');
+    */
 
+    /* INCOMPATIBILITY
     err(function () {
       expect({ length: '0' }).to.be.empty();
     }, 'expected { length: \'0\' } to be empty');
+    */
 
     err(function () {
       expect('asd').to.be.empty();
@@ -447,9 +455,11 @@ describe('expect', function () {
       expect('').to.not.be.empty();
     }, "expected '' not to be empty"); // Used to be: expected '' to not be empty
 
+    /* INCOMPATIBILITY
     err(function () {
       expect({}).to.not.be.empty();
     }, "expected {} not to be empty"); // Used to be: expected {} to not be empty
+    */
   });
 
   it('should test property(name)', function () {
@@ -524,7 +534,7 @@ describe('expect', function () {
       expect(3).to.contain('baz');
     }, [
       'The assertion "to contain" is not defined for the type "number",',
-      'but it is defined for these types: "string", "arrayLike"'
+      'but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: expected 3 to contain 'baz'
 
     err(function () {
@@ -677,7 +687,7 @@ describe('expect', function () {
   it('should fail with `fail`', function () {
     err(function () {
         expect().fail();
-    }, "explicit failure");
+    }, "Explicit failure"); // Used to be: explicit failure
   });
 
   it('should fail with `fail` and custom message', function () {

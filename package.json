@@ -16,11 +16,11 @@
   },
   "license": "ISC",
   "peerDependencies": {
-    "unexpected": "5"
+    "unexpected": ">= 5"
   },
   "devDependencies": {
     "istanbul": "0.3.5",
     "mocha": "2.1.0",
-    "unexpected": "5.1.6"
+    "unexpected": "6.0.5"
   }
 }

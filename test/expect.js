@@ -1,6 +1,7 @@
 var expect = require('../');
 
-expect.outputFormat('text');
+// expect.outputFormat('text');
+expect.preferredWidth = 80;
 
 /**
  * Module dependencies.
@@ -13,7 +14,8 @@ function err (fn, msg) {
   } catch (err) {
     // Unexpected starts the error message with a new line. Replaces it here
     // To avoid cluttering up the tests
-    expect(msg).to.be(err.message.replace(/^\n/, ''));
+    var message = err.output ? err.output.toString() : err.message;
+    expect(msg).to.be(message.replace(/^\n/, ''));
   }
 }
 
@@ -371,8 +373,9 @@ describe('expect', function () {
     err(function () {
       expect(4).to.have.length(3);
     }, [
-      'The assertion "to have length" is not defined for the type "number",',
-      'but it is defined for these types: "string", "array-like"'
+      "expected 4 to have length 3",
+      '  The assertion "to have length" is not defined for the type "number",',
+      '  but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: 'expected 4 to have a property \'length\''
 
     err(function () {
@@ -431,8 +434,9 @@ describe('expect', function () {
     err(function () {
       expect(null).to.be.empty();
     }, [
-      'The assertion "to be empty" is not defined for the type "null",',
-      'but it is defined for these types: "string", "array-like"'
+      "expected null to be empty",
+      '  The assertion "to be empty" is not defined for the type "null",',
+      '  but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: expected null to be an object
 
     /* INCOMPATIBILITY
@@ -473,8 +477,9 @@ describe('expect', function () {
     err(function () {
       expect('asd').to.have.property('foo');
     }, [
-      'The assertion "to have property" is not defined for the type "string",',
-      'but it is defined for the type "object"'
+      "expected 'asd' to have property 'foo'",
+      '  The assertion "to have property" is not defined for the type "string",',
+      '  but it is defined for the type "object"',
     ].join('\n')); // Used to be: expected 'asd' to have a property 'foo'
 
     // The following assertion used to throw an error. It doesn't with Unexpected.
@@ -533,8 +538,9 @@ describe('expect', function () {
     err(function () {
       expect(3).to.contain('baz');
     }, [
-      'The assertion "to contain" is not defined for the type "number",',
-      'but it is defined for these types: "string", "array-like"'
+      "expected 3 to contain 'baz'",
+      '  The assertion "to contain" is not defined for the type "number",',
+      '  but it is defined for these types: "string", "array-like"'
     ].join('\n')); // Used to be: expected 3 to contain 'baz'
 
     err(function () {

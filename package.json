@@ -22,6 +22,6 @@
   "devDependencies": {
     "istanbul": "0.3.5",
     "mocha": "2.1.0",
-    "unexpected": "6.0.5"
+    "unexpected": "7.0.0"
   }
 }

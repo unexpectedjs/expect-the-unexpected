@@ -189,6 +189,16 @@ write better tests if you avoid this pattern.
 expect(aFunctionThatThrowsFoo, 'not to throw', 'bar');
 ```
 
+### 7: not to have property
+
+With much of the same reasoning as in no. 6, unexpected does not
+support 'not to have property' with a value. The follwoing example
+will thus not work:
+
+```javascript
+expect(someObj).not.to.have.property('foo', bar');
+```
+
 ## License
 
 This module is published under the ISC license. See the [LICENSE](LICENSE)

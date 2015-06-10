@@ -522,10 +522,11 @@ describe('expect', function () {
     //}, "'asd' has no property 'foo'");
 
     expect({ foo: 'bar' }).to.have.property('foo', 'bar');
+    expect({ foo: 'bar' }).not.to.have.property('qux');
 
     err(function () {
-      expect({ length: undefined }).to.not.have.property('length', undefined);
-    }, "expected { length: undefined } not to have property 'length', undefined"); // Used to be: expected { length: undefined } to not have a property 'length'
+      expect({ foo: 'bar' }).to.not.have.property('foo', 'qux');
+    }, "The 'not to have property' assertion does not work with a value argument");
   });
 
   it('should test own.property(name)', function () {

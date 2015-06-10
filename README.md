@@ -173,6 +173,22 @@ expect('').to.be.empty();
 The above two examples will work without changes.
 
 
+### 6: not to throw
+
+Unexpected decided to deprecate matching on the error message when
+asserting that a function did not throw an exception. We felt that it
+was awkward, and that it was unclear what the intention was.
+
+The implementation in unexpected, before it was removed, and the
+implementation in expect, would both fail if the function threw an
+error which message did not match the asserted value. That feels
+backwards, and it can mask other errors that are thrown. You will
+write better tests if you avoid this pattern.
+
+```javascript
+expect(aFunctionThatThrowsFoo, 'not to throw', 'bar');
+```
+
 ## License
 
 This module is published under the ISC license. See the [LICENSE](LICENSE)

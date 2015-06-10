@@ -132,7 +132,11 @@ describe('expect', function () {
     expect(subject).to.be.an(Error);
 
     expect(itThrowsMessage).to.throwException(/tobi/);
-    expect(itThrowsMessage).to.not.throwException(/test/);
+    /* Used to work... Unexpected will throw an exception if you match
+     * on the error, while using the not flag.
+     *
+     * expect(itThrowsMessage).to.not.throwException(/test/);
+     */
 
     // Used to throw: expected 'tobi' to match /no match/
     err(function () {
@@ -155,7 +159,11 @@ describe('expect', function () {
     expect(subject2).to.be('aaa');
 
     expect(itThrowsString).to.throwException(/aaa/);
-    expect(itThrowsString).to.not.throwException(/bbb/);
+    /* Used to work... Unexpected will throw an exception if you match
+     * on the error, while using the not flag.
+     *
+     * expect(itThrowsString).to.not.throwException(/bbb/);
+     */
 
     // Used to throw: expected 'aaa' to match /no match/i
     err(function () {
@@ -169,13 +177,17 @@ describe('expect', function () {
       '  expected \'aaa\' to satisfy /no match/i'
     ].join('\n'));
 
-    var called = false;
-
-    expect(itWorks).to.not.throwError(function () {
-      called = true;
-    });
-
-    expect(called).to.be(false);
+    /* Used to work... Unexpected will throw an exception if you match
+     * on the error, while using the not flag.
+     *
+     * var called = false;
+     *
+     * expect(itWorks).to.not.throwError(function () {
+     *   called = true;
+     * });
+     *
+     * expect(called).to.be(false);
+     */
 
     // Used to throw: expected 5 to be a function
     err(function () {

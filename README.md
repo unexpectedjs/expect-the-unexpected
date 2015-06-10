@@ -185,8 +185,10 @@ error which message did not match the asserted value. That feels
 backwards, and it can mask other errors that are thrown. You will
 write better tests if you avoid this pattern.
 
+The following example will not work.
+
 ```javascript
-expect(aFunctionThatThrowsFoo, 'not to throw', 'bar');
+expect(aFunctionThatThrowsFoo).not.to.throw('bar');
 ```
 
 ### 7: not to have property

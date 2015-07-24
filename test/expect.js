@@ -372,7 +372,8 @@ describe('expect', function () {
     }, [
       "expected 'foobar' not to match /^foo/i",
       '',
-      'foobar'
+      'foobar',
+      '^^^'
     ].join('\n')); // Used to be: expected 'foobar' not to match /^foo/i
   });
 
@@ -557,14 +558,20 @@ describe('expect', function () {
 
     err(function () {
       expect('foobar').to.contain('baz');
-    }, "expected 'foobar' to contain 'baz'");
+    }, [
+        "expected 'foobar' to contain 'baz'",
+        '',
+        'foobar',
+        '   ^>'
+    ].join('\n'));
 
     err(function () {
       expect('foobar').to.not.contain('bar');
     }, [
       "expected 'foobar' not to contain 'bar'",
       '',
-      'foobar'
+      'foobar',
+      '   ^^^'
     ].join('\n')); // Used to be: expected 'foobar' to not contain 'bar'
   });
 

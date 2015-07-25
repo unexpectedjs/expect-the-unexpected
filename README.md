@@ -1,8 +1,8 @@
 # Expect the Unexpected
 
 This project implements
-[Expect.js](https://github.com/Automattic/expect.js)'s interface using
-[Unexpected](https://github.com/unexpectedjs/unexpected). It means
+the interface of [Expect.js](https://github.com/Automattic/expect.js)
+using [Unexpected](https://github.com/unexpectedjs/unexpected). It means
 that you can replace expect.js with this module, and most of your test
 suite will still run and you can start leveraging unexpected's
 powerful assertions without rewriting your entire test suite.
@@ -161,7 +161,7 @@ expect.addAssertion('[not] to have css class', function (expect, subject, value)
 expect({}).to.be.empty();
 ```
 
-Empty is basicly just an length === 0 assertion in unexpected.
+Empty is basically just an length === 0 assertion in unexpected.
 The type system does not allow the length to be checked on other
 types than string and object.
 
@@ -170,12 +170,12 @@ expect([]).to.be.empty();
 expect('').to.be.empty();
 ```
 
-The above two examples will work without changes.
+The two above examples will work without changes.
 
 
 ### 6: not to throw
 
-Unexpected decided to deprecate matching on the error message when
+Unexpected decided to deprecate matching of the error message when
 asserting that a function did not throw an exception. We felt that it
 was awkward, and that it was unclear what the intention was.
 
@@ -194,11 +194,11 @@ expect(aFunctionThatThrowsFoo).not.to.throw('bar');
 ### 7: not to have property
 
 With much of the same reasoning as in no. 6, unexpected does not
-support 'not to have property' with a value. The follwoing example
+support 'not to have property' with a value. The following example
 will thus not work:
 
 ```javascript
-expect(someObj).not.to.have.property('foo', bar');
+expect(someObj).not.to.have.property('foo', 'bar');
 ```
 
 ## License

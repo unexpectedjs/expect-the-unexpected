@@ -142,12 +142,8 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsMessage).to.throwException(/no match/);
     }, [
-      'expected',
-      'function itThrowsMessage() {',
-      '  throw new Error(\'tobi\');',
-      '}',
-      'to throw exception /no match/',
-      '  expected Error(\'tobi\') to satisfy /no match/'
+      "expected function itThrowsMessage() { throw new Error('tobi'); } to throw /no match/",
+      "  expected Error('tobi') to satisfy /no match/"
     ].join('\n'));
 
     var subject2;
@@ -169,12 +165,8 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsString).to.throwException(/no match/i);
     }, [
-      'expected',
-      'function itThrowsString() {',
-      '  throw \'aaa\';',
-      '}',
-      'to throw exception /no match/i',
-      '  expected \'aaa\' to satisfy /no match/i'
+      "expected function itThrowsString() { throw 'aaa'; } to throw /no match/i",
+      "  expected 'aaa' to match /no match/i"
     ].join('\n'));
 
     /* Used to work... Unexpected will throw an exception if you match
@@ -193,27 +185,24 @@ describe('expect', function () {
     err(function () {
       expect(5).to.throwException();
     }, [
-      "expected 5 to throw exception",
-      "  The assertion 'to throw exception' is not defined for the type 'number',",
-      "  but it is defined for the type 'function'"
+      'expected 5 to throw',
+      '  No matching assertion, did you mean:',
+      '  <function> to (throw|throw error|throw exception)',
+      '  <function> to (throw|throw error|throw exception) <any>'
     ].join('\n'));
 
     // Used to throw: expected fn not to throw an exception
     err(function () {
       expect(anonItThrows).not.to.throwException();
     }, [
-      'expected',
-      'function () {',
-      '  a.b.c;',
-      '}',
-      'not to throw exception',
+      'expected function () { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
 
     // Used to throw: expected fn to throw an exception
     err(function () {
       expect(anonItWorks).to.throwException();
-    }, 'expected function () { } to throw exception');
+    }, 'expected function () {} to throw');
 
     /*
     if (nameSupported) {
@@ -230,13 +219,7 @@ describe('expect', function () {
     */
     err(function () {
       expect(itWorks).to.throwException();
-    }, [
-      'expected',
-      'function itWorks() {',
-      '  return',
-      '}',
-      'to throw exception'
-    ].join('\n'));
+    }, 'expected function itWorks() { return } to throw');
 
     /*
     if (nameSupported) {
@@ -254,11 +237,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrows).not.to.throwException();
     }, [
-      'expected',
-      'function itThrows() {',
-      '  a.b.c;',
-      '}',
-      'not to throw exception',
+      'expected function itThrows() { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
   });

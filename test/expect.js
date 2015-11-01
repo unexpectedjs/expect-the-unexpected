@@ -365,8 +365,8 @@ describe('expect', function () {
       expect(4).to.have.length(3);
     }, [
       "expected 4 to have length 3",
-      "  The assertion 'to have length' is not defined for the type 'number',",
-      "  but it is defined for these types: 'string', 'array-like'"
+      '  No matching assertion, did you mean:',
+      '  <string|array-like> [not] to have length <number>'
     ].join('\n')); // Used to be: 'expected 4 to have a property \'length\''
 
     err(function () {
@@ -426,8 +426,8 @@ describe('expect', function () {
       expect(null).to.be.empty();
     }, [
       "expected null to be empty",
-      "  The assertion 'to be empty' is not defined for the type 'null',",
-      "  but it is defined for these types: 'string', 'array-like'"
+      '  No matching assertion, did you mean:',
+      '  <string|array-like> [not] to be empty'
     ].join('\n')); // Used to be: expected null to be an object
 
     /* INCOMPATIBILITY
@@ -469,8 +469,9 @@ describe('expect', function () {
       expect('asd').to.have.property('foo');
     }, [
       "expected 'asd' to have property 'foo'",
-      "  The assertion 'to have property' is not defined for the type 'string',",
-      "  but it is defined for the type 'object'"
+      '  No matching assertion, did you mean:',
+      '  <object|function> [not] to have property <string>',
+      '  <object|function> to have [own] property <string> <any>'
     ].join('\n')); // Used to be: expected 'asd' to have a property 'foo'
 
     // The following assertion used to throw an error. It doesn't with Unexpected.
@@ -506,7 +507,11 @@ describe('expect', function () {
 
     err(function () {
       expect({ foo: 'bar' }).to.not.have.property('foo', 'qux');
-    }, "The 'not to have property' assertion does not work with a value argument");
+    }, [
+      "expected { foo: 'bar' } not to have property 'foo', 'qux'",
+      '  No matching assertion, did you mean:',
+      '  <object|function> [not] to have property <string>'
+    ].join('\n'));
   });
 
   it('should test own.property(name)', function () {
@@ -531,8 +536,9 @@ describe('expect', function () {
       expect(3).to.contain('baz');
     }, [
       "expected 3 to contain 'baz'",
-      "  The assertion 'to contain' is not defined for the type 'number',",
-      "  but it is defined for these types: 'string', 'array-like'"
+      '  No matching assertion, did you mean:',
+      '  <array-like> [not] to contain <any+>',
+      '  <string> [not] to contain <string+>'
     ].join('\n')); // Used to be: expected 3 to contain 'baz'
 
     err(function () {
@@ -541,7 +547,7 @@ describe('expect', function () {
         "expected 'foobar' to contain 'baz'",
         '',
         'foobar',
-        '   ^>'
+        '   ^^'
     ].join('\n'));
 
     err(function () {

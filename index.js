@@ -108,7 +108,7 @@ ExpectFacade.prototype.withArgs = function () {
     { name: 'length', assertion: 'to have length'},
     { name: 'empty', assertion: 'to be empty'},
     { name: 'throwError', assertion: 'to throw'},
-    { name: 'throwException', assertion: 'to throw exception'},
+    { name: 'throwException', assertion: 'to throw'},
     { name: 'within', assertion: 'to be within'},
     { name: 'greaterThan', assertion: 'to be greater than'},
     { name: 'above', assertion: 'to be above'},
@@ -164,6 +164,8 @@ expect.addAssertion = function (assertionName, unexpectedAssertionName, customAs
 };
 
 expect.version = '0.0.0';
+
+expect.unexpected = unexpected;
 
 return expect;
 

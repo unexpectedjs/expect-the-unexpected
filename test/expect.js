@@ -1,5 +1,6 @@
 var expect = require('../');
 
+expect.unexpected.output.preferredWidth = 100;
 expect.outputFormat('text');
 
 /**

@@ -165,6 +165,8 @@ expect.addAssertion = function (assertionName, unexpectedAssertionName, customAs
 
 expect.version = '0.0.0';
 
+expect.unexpected = unexpected;
+
 return expect;
 
 }));

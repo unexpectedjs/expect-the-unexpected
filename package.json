@@ -21,8 +21,8 @@
     "unexpected": "10"
   },
   "devDependencies": {
-    "eslint": "2.7.0",
-    "eslint-config-onelint": "1.0.2",
+    "eslint": "2.13.1",
+    "eslint-config-onelint": "1.2.0",
     "istanbul": "0.3.5",
     "mocha": "2.1.0",
     "unexpected": "10.0.2"

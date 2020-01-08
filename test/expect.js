@@ -143,7 +143,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsMessage).to.throwException(/no match/);
     }, [
-      "expected function itThrowsMessage() { throw new Error('tobi'); } to throw /no match/",
+      "expected function itThrowsMessage () { throw new Error('tobi'); } to throw /no match/",
       "  expected Error('tobi') to satisfy /no match/"
     ].join('\n'));
 
@@ -166,7 +166,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsString).to.throwException(/no match/i);
     }, [
-      "expected function itThrowsString() { throw 'aaa'; } to throw /no match/i",
+      "expected function itThrowsString () { throw 'aaa'; } to throw /no match/i",
       "  expected 'aaa' to match /no match/i"
     ].join('\n'));
 
@@ -187,23 +187,28 @@ describe('expect', function () {
       expect(5).to.throwException();
     }, [
       'expected 5 to throw',
-      '  No matching assertion, did you mean:',
-      '  <function> to (throw|throw error|throw exception)',
-      '  <function> to (throw|throw error|throw exception) <any>'
+      '  The assertion does not have a matching signature for:',
+      '    <number> to throw',
+      '  did you mean:',
+      '    <function> to (throw|throw error|throw exception)',
+      '    <function> to (throw|throw error|throw exception) <any>'
     ].join('\n'));
 
     // Used to throw: expected fn not to throw an exception
     err(function () {
       expect(anonItThrows).not.to.throwException();
     }, [
-      'expected function () { a.b.c; } not to throw',
+      'expected function anonItThrows() { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
 
     // Used to throw: expected fn to throw an exception
     err(function () {
       expect(anonItWorks).to.throwException();
-    }, 'expected function () {} to throw');
+    }, [
+      'expected function anonItWorks() { } to throw',
+      '  did not throw'
+    ].join('\n'));
 
     /*
     if (nameSupported) {
@@ -220,7 +225,10 @@ describe('expect', function () {
     */
     err(function () {
       expect(itWorks).to.throwException();
-    }, 'expected function itWorks() { return } to throw');
+    }, [
+      'expected function itWorks () { return } to throw',
+      '  did not throw'
+    ].join('\n'));
 
     /*
     if (nameSupported) {
@@ -238,7 +246,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrows).not.to.throwException();
     }, [
-      'expected function itThrows() { a.b.c; } not to throw',
+      'expected function itThrows () { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
   });
@@ -366,8 +374,10 @@ describe('expect', function () {
       expect(4).to.have.length(3);
     }, [
       "expected 4 to have length 3",
-      '  No matching assertion, did you mean:',
-      '  <string|array-like> [not] to have length <number>'
+      '  The assertion does not have a matching signature for:',
+      '    <number> to have length <number>',
+      '  did you mean:',
+      '    <string|array-like> [not] to have length <number>'
     ].join('\n')); // Used to be: 'expected 4 to have a property \'length\''
 
     err(function () {
@@ -427,8 +437,11 @@ describe('expect', function () {
       expect(null).to.be.empty();
     }, [
       "expected null to be empty",
-      '  No matching assertion, did you mean:',
-      '  <string|array-like> [not] to be empty'
+      '  The assertion does not have a matching signature for:',
+      '    <null> to be empty',
+      '  did you mean:',
+      '    <object> [not] to be empty',
+      '    <string|array-like> [not] to be empty'
     ].join('\n')); // Used to be: expected null to be an object
 
     /* INCOMPATIBILITY
@@ -470,9 +483,11 @@ describe('expect', function () {
       expect('asd').to.have.property('foo');
     }, [
       "expected 'asd' to have property 'foo'",
-      '  No matching assertion, did you mean:',
-      '  <object|function> [not] to have property <string>',
-      '  <object|function> to have [own] property <string> <any>'
+      '  The assertion does not have a matching signature for:',
+      '    <string> to have property <string>',
+      '  did you mean:',
+      '    <object|function> [not] to have property <string>',
+      '    <object|function> to have [own] property <string> <any>'
     ].join('\n')); // Used to be: expected 'asd' to have a property 'foo'
 
     // The following assertion used to throw an error. It doesn't with Unexpected.
@@ -510,8 +525,10 @@ describe('expect', function () {
       expect({ foo: 'bar' }).to.not.have.property('foo', 'qux');
     }, [
       "expected { foo: 'bar' } not to have property 'foo', 'qux'",
-      '  No matching assertion, did you mean:',
-      '  <object|function> [not] to have property <string>'
+      '  The assertion does not have a matching signature for:',
+      '    <object> not to have property <string> <string>',
+      '  did you mean:',
+      '    <object|function> [not] to have property <string>'
     ].join('\n'));
   });
 
@@ -537,9 +554,11 @@ describe('expect', function () {
       expect(3).to.contain('baz');
     }, [
       "expected 3 to contain 'baz'",
-      '  No matching assertion, did you mean:',
-      '  <array-like> [not] to contain <any+>',
-      '  <string> [not] to contain <string+>'
+      '  The assertion does not have a matching signature for:',
+      '    <number> to contain <string>',
+      '  did you mean:',
+      '    <array-like> [not] to contain <any+>',
+      '    <string> [not] to contain <string+>'
     ].join('\n')); // Used to be: expected 3 to contain 'baz'
 
     err(function () {
@@ -677,7 +696,14 @@ describe('expect', function () {
 
     err(function () {
       expect({ a: 'b', c: 'd' }).to.only.have.keys('a');
-    }, "expected { a: 'b', c: 'd' } to only have keys 'a'");
+    }, [
+      "expected { a: 'b', c: 'd' } to only have keys 'a'",
+      "",
+      "{",
+      "  a: 'b',",
+      "  c: 'd' // should be removed",
+      "}",
+    ].join('\n'));
     // Used to be: expected { a: 'b', c: 'd' } to only have key 'a'
   });
 

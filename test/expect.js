@@ -1,21 +1,18 @@
+var unexpected = require('unexpected');
 var expect = require('../');
 
 expect.unexpected.output.preferredWidth = 100;
-expect.outputFormat('text');
 
 /**
  * Module dependencies.
  */
 
 function err (fn, msg) {
-  try {
+  unexpected(() => {
     fn();
-    throw new Error('Expected an error');
-  } catch (err) {
-    // Unexpected starts the error message with a new line. Replaces it here
-    // To avoid cluttering up the tests
-    expect(msg).to.be(err.message.replace(/^\n/, ''));
-  }
+  }, 'to throw', unexpected.it(error => {
+    expect(error.getErrorMessage('text').toString(), 'to equal', msg);
+  }));
 }
 
 /**

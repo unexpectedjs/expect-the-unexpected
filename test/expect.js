@@ -140,7 +140,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsMessage).to.throwException(/no match/);
     }, [
-      "expected function itThrowsMessage () { throw new Error('tobi'); } to throw /no match/",
+      "expected function itThrowsMessage() { throw new Error('tobi'); } to throw /no match/",
       "  expected Error('tobi') to satisfy /no match/"
     ].join('\n'));
 
@@ -163,7 +163,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrowsString).to.throwException(/no match/i);
     }, [
-      "expected function itThrowsString () { throw 'aaa'; } to throw /no match/i",
+      "expected function itThrowsString() { throw 'aaa'; } to throw /no match/i",
       "  expected 'aaa' to match /no match/i"
     ].join('\n'));
 
@@ -223,7 +223,7 @@ describe('expect', function () {
     err(function () {
       expect(itWorks).to.throwException();
     }, [
-      'expected function itWorks () { return } to throw',
+      'expected function itWorks() { return } to throw',
       '  did not throw'
     ].join('\n'));
 
@@ -243,7 +243,7 @@ describe('expect', function () {
     err(function () {
       expect(itThrows).not.to.throwException();
     }, [
-      'expected function itThrows () { a.b.c; } not to throw',
+      'expected function itThrows() { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
   });

@@ -1,9 +1,7 @@
 module.exports = {
-    extends: [
-        'onelint'
-    ],
+    extends: ['standard', 'prettier', 'prettier/standard'],
     env: {
+        amd: true,
         es6: false
-    },
-    parserOptions: null
+    }
 };

@@ -11,7 +11,7 @@ matrix:
       node_js: '8'
       env:
         - TARGET=lint
-    - name: Lint
+    - name: Coverage
       node_js: '8'
       env:
         - TARGET=coverage

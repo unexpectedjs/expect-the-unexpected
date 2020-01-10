@@ -1,4 +1,16 @@
 language: node_js
+env:
+  - TARGET=test
 node_js:
- - 0.10
-script: "npm run travis"
+  - '0.10'
+  - '0.12'
+  - '4'
+  - '6'
+  - '8'
+matrix:
+  include:
+    - name: Lint
+      node_js: '8'
+      env:
+        - TARGET=lint
+script: npm run $TARGET

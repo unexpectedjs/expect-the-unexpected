@@ -5,8 +5,7 @@
   "scripts": {
     "test": "mocha",
     "lint": "eslint . && prettier --check '**/*.js'",
-    "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot",
-    "travis": "mocha -R spec && npm run lint"
+    "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot"
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
   "contributors": [

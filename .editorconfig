@@ -9,7 +9,7 @@ indent_style = space
 [Makefile]
 indent_style = tab
 
-[*.json]
+[*.{json,yml}]
 indent_size = 2
 
 [test/expect.js]

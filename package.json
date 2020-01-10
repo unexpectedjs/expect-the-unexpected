@@ -5,7 +5,7 @@
   "scripts": {
     "test": "mocha",
     "lint": "eslint . && prettier --check '**/*.js'",
-    "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot"
+    "coverage": "nyc --reporter lcov --reporter text mocha"
   },
   "author": "Gustav Nikolaj <gustavnikolaj@gmail.com>",
   "contributors": [
@@ -27,8 +27,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "istanbul": "0.3.5",
     "mocha": "^6.2.2",
+    "nyc": "^15.0.0",
     "prettier": "~1.19.1",
     "unexpected": "^10.40.2"
   }

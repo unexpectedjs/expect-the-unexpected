@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --check '**/*.js'",
     "coverage": "NODE_ENV=development istanbul cover --include-all-sources _mocha -- --reporter dot",
     "travis": "mocha -R spec && npm run lint"
   },

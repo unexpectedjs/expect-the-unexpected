@@ -195,9 +195,7 @@ describe('expect', function () {
     err(function () {
       expect(anonItThrows).not.to.throwException();
     }, [
-      /^v4\./.test(process.version)
-        ? 'expected function () { a.b.c; } not to throw'
-        : 'expected function anonItThrows() { a.b.c; } not to throw',
+      'expected function anonItThrows() { a.b.c; } not to throw',
       '  threw: ReferenceError(\'a is not defined\')'
     ].join('\n'));
 
@@ -205,9 +203,7 @@ describe('expect', function () {
     err(function () {
       expect(anonItWorks).to.throwException();
     }, [
-      /^v4\./.test(process.version)
-        ? 'expected function () { } to throw'
-        : 'expected function anonItWorks() { } to throw',
+      'expected function anonItWorks() { } to throw',
       '  did not throw'
     ].join('\n'));
 

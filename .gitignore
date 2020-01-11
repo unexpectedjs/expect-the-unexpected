@@ -1,3 +1,6 @@
 /node_modules/
 /coverage/
 /.nyc_output/
+
+# VS Code User Specific Settings
+/.vscode/settings.json

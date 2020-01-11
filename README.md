@@ -2,8 +2,12 @@
 
 This project implements
 the interface of [Expect.js](https://github.com/Automattic/expect.js)
-using [Unexpected](https://github.com/unexpectedjs/unexpected). It means
-that you can replace expect.js with this module, and most of your test
+using [Unexpected](https://github.com/unexpectedjs/unexpected).
+
+[![NPM version](https://img.shields.io/npm/v/expect-the-unexpected.svg)](https://www.npmjs.com/package/expect-the-unexpected)
+[![Build Status](https://img.shields.io/travis/unexpectedjs/expect-the-unexpected/master.svg)](https://travis-ci.org/unexpectedjs/expect-the-unexpected)
+
+With this module you can replace expect.js and most of your test
 suite will still run and you can start leveraging unexpected's
 powerful assertions without rewriting your entire test suite.
 

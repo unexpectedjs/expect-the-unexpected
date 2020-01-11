@@ -483,8 +483,8 @@ describe('expect', function () {
       '  The assertion does not have a matching signature for:',
       '    <string> to have property <string>',
       '  did you mean:',
-      '    <object|function> [not] to have property <string>',
-      '    <object|function> to have [own] property <string> <any>'
+      '    <object> [not] to have property <string>',
+      '    <object> to have [own] property <string> <any>'
     ].join('\n')); // Used to be: expected 'asd' to have a property 'foo'
 
     // The following assertion used to throw an error. It doesn't with Unexpected.
@@ -525,7 +525,7 @@ describe('expect', function () {
       '  The assertion does not have a matching signature for:',
       '    <object> not to have property <string> <string>',
       '  did you mean:',
-      '    <object|function> [not] to have property <string>'
+      '    <object> [not] to have property <string>'
     ].join('\n'));
   });
 

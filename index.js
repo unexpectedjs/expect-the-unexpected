@@ -111,8 +111,8 @@
         { name: 'string', assertion: 'to contain' }, // TODO: expect('foobar').to.include.string('foo')
         { name: 'length', assertion: 'to have length' },
         { name: 'empty', assertion: 'to be empty' },
-        { name: 'throwError', assertion: 'to throw' },
-        { name: 'throwException', assertion: 'to throw' },
+        { name: 'throwError', assertion: 'to throw', useExpectIt: true },
+        { name: 'throwException', assertion: 'to throw', useExpectIt: true },
         { name: 'within', assertion: 'to be within' },
         { name: 'greaterThan', assertion: 'to be greater than' },
         { name: 'above', assertion: 'to be above' },
@@ -125,6 +125,15 @@
                 '[not] ' + methodDefinition.assertion,
                 this.flags
             );
+
+            if (
+                methodDefinition.useExpectIt &&
+                args.length === 1 &&
+                typeof args[0] === 'function'
+            ) {
+                args[0] = unexpected.it(args[0]);
+            }
+
             unexpected.apply(
                 unexpected,
                 [this.subject, assertion].concat(args)
@@ -162,7 +171,10 @@
         };
     });
 
-    ExpectFacade.prototype.fail = unexpected.fail;
+    ExpectFacade.prototype.fail = function() {
+        var args = Array.prototype.slice.call(arguments);
+        return unexpected.fail.apply(unexpected, args);
+    };
 
     function expect() {
         if (arguments.length > 1) {
@@ -172,7 +184,10 @@
         }
     }
 
-    expect.fail = unexpected.fail;
+    expect.fail = function() {
+        var args = Array.prototype.slice.call(arguments);
+        return unexpected.fail.apply(unexpected, args);
+    };
     expect.outputFormat = unexpected.outputFormat;
 
     expect.addAssertion = function(

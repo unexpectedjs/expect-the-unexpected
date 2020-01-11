@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/gustavnikolaj/expect-the-unexpected.git"
+    "url": "https://github.com/unexpectedjs/expect-the-unexpected.git"
   },
   "license": "ISC",
   "peerDependencies": {

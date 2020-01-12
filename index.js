@@ -7,6 +7,8 @@
         root.expect = factory(root.weknowhow.expect);
     }
 })(this, function(unexpected) {
+    unexpected = unexpected.clone();
+
     function extend(obj) {
         var args = Array.prototype.slice.call(arguments, 1);
         args.forEach(function(source) {

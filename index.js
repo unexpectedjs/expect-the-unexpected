@@ -34,10 +34,11 @@
         to: ['be', 'have', 'include', 'only', 'not'],
         only: ['have'],
         have: ['own'],
-        be: ['an', 'a']
+        be: []
     };
-
-    var assertions = ['ok', 'within', 'empty', 'above', 'greaterThan'];
+    var flagsAssertions = {
+        be: ['a', 'an', 'ok', 'within', 'empty', 'above', 'greaterThan']
+    };
 
     function defineNextStep(prop, parent, stepFlags) {
         stepFlags = stepFlags || flags;
@@ -58,11 +59,14 @@
                         return obj;
                     };
 
-                    assertions
-                        .concat(flags[prop] || [])
-                        .forEach(function(flag) {
-                            defineNextStep(flag, fn);
-                        });
+                    if (flagsAssertions[prop]) {
+                        var assertions = flagsAssertions[prop];
+                        assertions
+                            .concat(flags[prop] || [])
+                            .forEach(function(flag) {
+                                defineNextStep(flag, fn);
+                            });
+                    }
 
                     fn.flags = obj.flags;
                     fn.subject = obj.subject;

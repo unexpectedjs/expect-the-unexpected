@@ -37,7 +37,17 @@
         be: []
     };
     var flagsAssertions = {
-        be: ['a', 'an', 'ok', 'within', 'empty', 'above', 'greaterThan']
+        be: [
+            'a',
+            'an',
+            'ok',
+            'within',
+            'empty',
+            'above',
+            'greaterThan',
+            'below',
+            'lessThan'
+        ]
     };
 
     function defineNextStep(prop, parent, stepFlags) {

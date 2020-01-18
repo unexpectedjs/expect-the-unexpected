@@ -125,6 +125,7 @@
         { name: 'string', assertion: 'to contain' }, // TODO: expect('foobar').to.include.string('foo')
         { name: 'length', assertion: 'to have length' },
         { name: 'empty', assertion: 'to be empty' },
+        { name: 'throw', assertion: 'to throw', useExpectIt: true },
         { name: 'throwError', assertion: 'to throw', useExpectIt: true },
         { name: 'throwException', assertion: 'to throw', useExpectIt: true },
         { name: 'within', assertion: 'to be within' },

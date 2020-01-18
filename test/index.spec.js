@@ -37,4 +37,28 @@ describe('index', () => {
             );
         });
     });
+
+    describe('.to.throw()', () => {
+        it('should pass', () => {
+            expect(() => {
+                throw new SyntaxError();
+            }).to.throw(e => {
+                expect(e).to.be.a(SyntaxError);
+            });
+        });
+
+        it('should fail', () => {
+            unexpected(
+                () => {
+                    expect(() => {
+                        throw new Error();
+                    }).to.throw(e => {
+                        expect(e).to.be.a(SyntaxError);
+                    });
+                },
+                'to throw',
+                /[ ]{2}expected Error\(\) to be a SyntaxError$/
+            );
+        });
+    });
 });

@@ -17,8 +17,8 @@
     "url": "https://github.com/unexpectedjs/expect-the-unexpected.git"
   },
   "license": "ISC",
-  "peerDependencies": {
-    "unexpected": "^10"
+  "dependencies": {
+    "unexpected": "^11.12.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -30,7 +30,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^6.2.2",
     "nyc": "^15.0.0",
-    "prettier": "~1.19.1",
-    "unexpected": "^10.40.2"
+    "prettier": "~1.19.1"
   }
 }

@@ -34,23 +34,27 @@
         to: ['be', 'have', 'include', 'only', 'not'],
         only: ['have'],
         have: ['own'],
-        be: ['an', 'a', 'and']
+        be: ['an', 'a']
     };
-
-    flags.and = flags.to;
 
     var assertions = ['ok', 'within', 'empty', 'above', 'greaterThan'];
 
-    function defineNextStep(prop, parent) {
+    function defineNextStep(prop, parent, stepFlags) {
+        stepFlags = stepFlags || flags;
+
         Object.defineProperty(parent, prop, {
             get: function() {
-                var obj = new ExpectFacade(parent.subject, flags[prop]);
+                var obj = new ExpectFacade(parent.subject, stepFlags[prop]);
                 obj.flags = extend({}, parent.flags);
                 obj.flags[prop] = true;
 
                 if (typeof ExpectFacade.prototype[prop] === 'function') {
                     var fn = function() {
                         ExpectFacade.prototype[prop].apply(obj, arguments);
+
+                        // allow chaining with .and.
+                        defineNextStep('and', obj, { and: flags.to });
+
                         return obj;
                     };
 
@@ -77,10 +81,6 @@
         this.flags = {};
         this.subject = subject;
 
-        if (!nextSteps) {
-            nextSteps = Object.keys(flags);
-        }
-
         if (nextSteps) {
             nextSteps.forEach(function(prop) {
                 defineNextStep(prop, that);
@@ -89,7 +89,7 @@
     }
 
     ExpectFacade.prototype.withArgs = function() {
-        var result = new ExpectFacade(this.subject);
+        var result = new ExpectFacade(this.subject, Object.keys(flags));
         var subject = this.subject;
         result.flags = this.flags;
         var args = arguments;
@@ -180,7 +180,7 @@
         if (arguments.length > 1) {
             unexpected.apply(null, arguments);
         } else {
-            return new ExpectFacade(arguments[0]);
+            return new ExpectFacade(arguments[0], Object.keys(flags));
         }
     }
 

@@ -6,6 +6,7 @@ using [Unexpected](https://github.com/unexpectedjs/unexpected).
 
 [![NPM version](https://img.shields.io/npm/v/expect-the-unexpected.svg)](https://www.npmjs.com/package/expect-the-unexpected)
 [![Build Status](https://img.shields.io/travis/unexpectedjs/expect-the-unexpected/master.svg)](https://travis-ci.org/unexpectedjs/expect-the-unexpected)
+[![Coverage Status](https://img.shields.io/coveralls/unexpectedjs/expect-the-unexpected/master.svg)](https://coveralls.io/r/unexpectedjs/expect-the-unexpected?branch=master)
 
 With this module you can replace expect.js and most of your test
 suite will still run and you can start leveraging unexpected's

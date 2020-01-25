@@ -31,6 +31,10 @@
             .trim();
     }
 
+    function stripTypes(pattern) {
+        return pattern.replace(/(<.*?>[ ]?)/g, '').trim();
+    }
+
     var flags = {
         not: ['to', 'be', 'have', 'include', 'only'],
         to: ['be', 'have', 'include', 'only', 'not'],
@@ -220,7 +224,10 @@
 
         ExpectFacade.prototype[assertionName] = function() {
             var args = Array.prototype.slice.call(arguments);
-            var assertion = expandFlags(unexpectedAssertionName, this.flags);
+            var assertion = expandFlags(
+                stripTypes(unexpectedAssertionName),
+                this.flags
+            );
 
             unexpected.apply(
                 unexpected,

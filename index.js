@@ -193,11 +193,11 @@
         return unexpected.fail.apply(unexpected, args);
     };
 
-    function expect() {
+    function expect(subject) {
         if (arguments.length > 1) {
-            unexpected.apply(null, arguments);
+            return unexpected.apply(null, arguments);
         } else {
-            return new ExpectFacade(arguments[0], Object.keys(flags));
+            return new ExpectFacade(subject, Object.keys(flags));
         }
     }
 
@@ -207,12 +207,17 @@
     };
     expect.outputFormat = unexpected.outputFormat;
 
-    expect.addAssertion = function(
+    expect.addAssertion = function() {
+        throw new Error('addAssertion() has been renamed addCustomAssertion()');
+    };
+
+    expect.addCustomAssertion = function(
         assertionName,
         unexpectedAssertionName,
         customAssertion
     ) {
         unexpected.addAssertion(unexpectedAssertionName, customAssertion);
+
         ExpectFacade.prototype[assertionName] = function() {
             var args = Array.prototype.slice.call(arguments);
             var assertion = expandFlags(unexpectedAssertionName, this.flags);

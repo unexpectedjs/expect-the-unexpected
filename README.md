@@ -142,7 +142,7 @@ expect.Assertion.prototype.cssClass = function (expected) {
 And then the same assertion in expect-the-unexpected
 
 ```javascript
-expect.addAssertion('cssClass', '[not] to have css class', function (expect, subject, value) {
+expect.addCustomAssertion('cssClass', '[not] to have css class', function (expect, subject, value) {
     var $element = $(subject);
     var elementClasses = ($element.attr('class') || '').split(' ');
     expect(elementClasses, '[not] to contain', value);
@@ -152,7 +152,7 @@ expect.addAssertion('cssClass', '[not] to have css class', function (expect, sub
 And then again as a pure unexpected custom assertion:
 
 ```javascript
-expect.addAssertion('[not] to have css class', function (expect, subject, value) {
+expect.addCustomAssertion('[not] to have css class', function (expect, subject, value) {
     var $element = $(subject);
     var elementClasses = ($element.attr('class') || '').split(' ');
     expect(elementClasses, '[not] to contain', value);

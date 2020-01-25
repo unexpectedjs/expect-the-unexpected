@@ -11,7 +11,7 @@ function err (fn, msg) {
   unexpected(() => {
     fn();
   }, 'to throw', unexpected.it(error => {
-    expect(error.getErrorMessage('text').toString(), 'to equal', msg);
+    unexpected(error.getErrorMessage('text').toString(), 'to equal', msg);
   }));
 }
 
